@@ -6,8 +6,8 @@ const path = require("path")
 app.use("/css/:cssId", function (req, res) {
 	res.sendFile(path.join(__dirname, "css", req.params.cssId))
 })
-app.use("/js/jsID", function (req, res) {
-	res.sendFile(path.join(__dirname, "css", req.params.jsId))
+app.use("/js/:jsId", function (req, res) {
+	res.sendFile(path.join(__dirname, "js", req.params.jsId))
 })
 
 app.get("/", function (req, res) {
@@ -21,6 +21,6 @@ app.use("/", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/404.html"))
 })
 
-app.listen(8080, () => {
+app.listen(80, () => {
 	console.info("server alive")
 })
