@@ -1,8 +1,13 @@
+// unencapsulate the runAlgo method
+
 console.info("rectangle.js is alive")
 
 const canvas = document.getElementById("theRectangle")
 const ctx = canvas.getContext("2d")
-const inits = {}
+
+const sleep = function (ms) {
+	return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 // visualiser object constructor
 // visualiser means a single chart
@@ -13,50 +18,67 @@ const SortChart = function (array) {
 	this.v = {}
 	this.sorted = false
 	this.scanning = []
-	this.interval = 10
-	this.algo = null
+	this.interval = 1000
 	this.swap = function (a, b) {
 		let t = this.array[a]
 		this.array[a] = this.array[b]
 		this.array[b] = t
 	}
 	this.draw = function () {
-		document.getElementById("algo").innerHTML = this.algo.name
+		// calculate changes between shown array and real array
+		let moves = []
+		for (i in this.shownArr) {
+			moves.push(this.array.indexOf(this.shownArr[i]))
+		}
+		// write algorithm name and variables
+		document.getElementById("algo").innerHTML = this.algo ? this.algo : "Heading"
+		document.getElementById("variables").innerHTML = ""
 		for (i in this.v) {
 			document.getElementById("variables").innerHTML += `<li>${i}: ${this.v[i]}</li>`
 		}
-		let moves = getMoves(this.shownArr, this.array)
 		ctx.clearRect(0, 0, canvas.width, canvas.height) // clear canvas
 		let barWidth = canvas.getAttribute("width") / this.array.length
 		let rectHeight = Number(canvas.getAttribute("height"))
 		for (i in this.array) {
 			// draw bar
-			let barUnit = rectHeight / Math.max.apply(null, this.array)
+			let barUnit = rectHeight / Math.max.apply(null, this.array) // height of smallest bar
 			ctx.fillStyle = "white"
 			if (this.scanning.indexOf(Number(i)) >= 0) {ctx.fillStyle = "red"}
-			if (this.sorted == true) {
-				ctx.fillStyle = "green"
-			}
-			ctx.fillRect(i * barWidth, rectHeight - (barUnit * v.array[i]), barWidth, barUnit * v.array[i])
+			if (this.sorted == true) {ctx.fillStyle = "green"}
+			ctx.fillRect(i * barWidth, rectHeight - (barUnit * this.array[i]), barWidth, barUnit * this.array[i])
 		}
+		// reset shownArr
 		this.shownArr = []
 		for (i of this.array) {this.shownArr.push(i)}
 	}
+	this.runAlgo = async function (algo) {
+		if (this.running == false) {
+			this.running = true
+			this.algo = algo
+			this.v = {}
+			algos[algo][0].apply(this)
+			while (this.running) {
+				algos[algo][1].apply(this)
+				this.draw()
+				await sleep(this.interval)
+			}
+		}
+	}
+	this.stop = async function () {
+		this.running = false
+	}
+	this.draw()
 }
 
-const sleep = function (ms) {
-	return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-const getMoves = function (bef, aft) {
+/*const getMoves = function (bef, aft) {
 	let moves = []
 	for (i in bef) {
 		moves.push(aft.indexOf(bef[i]))
 	}
 	return moves
-}
+}*/
 
-const drawSort = function (v, done = false) {
+/*const drawSort = function (v, done = false) {
 	// write name and variables to document
 	document.getElementById("algo").innerHTML = algo.name
 	for (i in v.vars) {
@@ -80,17 +102,14 @@ const drawSort = function (v, done = false) {
 	v.shownArr = []
 	for (i of v.array) {v.shownArr.push(i)}
 	//moves = []
+}*/
+
+const bogo = function () {
+	this.v.attempts += 1
+	this.array = this.array.sort(() => Math.random() - 0.5)
 }
 
-const bogo = function (v) {
-	v.vars.attempts += 1
-	v.array = v.array.sort(() => Math.random() - 0.5)
-}
-inits.bogo = {
-	attempts: 0
-}
-
-const bubble = function (v) {
+let bubble = function (v) {
 	v.scanning = [v.vars.i, v.vars.i + 1]
 	if (v.array[v.vars.i] > v.array[v.vars.i + 1]) {
 		swap(v, v.vars.i, v.vars.i + 1)
@@ -109,25 +128,33 @@ const bubble = function (v) {
 		}
 	}
 }
+
 const algos = {
-	bubble: async function () {
-		console.log("bubble sorting")
-		this.v.unsorted = this.array.length
-		while (this.v.unsorted > 2) {
-			this.v.currentMax = 0
-			for (i = 0; i < this.v.unsorted; i++) {
-				console.log(this.array)
-				if (this.array[i] > this.array[i + 1]) {
-					this.swap(i, i + 1)
-					this.v.currentMax = i
-				}
-				drawSort(this)
-				await sleep(1000)
+	bogo: [
+		function () { // init function
+			this.v.attempts = 0
+		},
+		function () { // step function
+			this.v.attempts += 1
+			this.array = this.array.sort(() => Math.random() - 0.5)}
+	],
+	bubble: [
+		function () {
+			this.v = {
+				passes: 0,
+				i: 0,
+				swaps: 0,
+				swapped: false,
+				unsorted: this.array.length
 			}
+		},
+		function () {
+			
 		}
-	},
+	]
 }
-const bubbleInit = function (v) {
+
+/*const bubbleInit = function (v) {
 	v.vars = {
 		passes: 0,
 		i: 0,
@@ -136,16 +163,16 @@ const bubbleInit = function (v) {
 	}
 	v.vars.unsorted = v.array.length
 	spr
-}
-inits.bubble = {
+}*/
+/*inits.bubble = {
 	passes: 0,
 	i: 0,
 	swaps: 0,
 	swapped: false,
 	unsorted: 40
-}
+}*/
 
-const runAlgo = function (algo, v, interval) {
+/*const runAlgo = function (algo, v, interval) {
 	v.algo = new Algorithm(algos[algo.name])
 	v.vars = inits[algo.name]
 	drawSort(v)
@@ -157,8 +184,8 @@ const runAlgo = function (algo, v, interval) {
 		}
 		drawSort(v)
 	}, interval)
-}
+}*/
 
 let chart = new SortChart(Array.from({length: 40}, (n, i) => i + 1).sort(() => Math.random() - 0.5))
-chart.algo = algos.bubble
-chart.running = true
+
+

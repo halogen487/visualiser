@@ -3,6 +3,11 @@
 const express = require("express"); const app = express()
 const path = require("path")
 
+app.use(function (req, res, next) {
+	console.log(`${req.method} request for ${req.url} from ${req.ip}`)
+	next()
+})
+
 app.use("/css/:cssId", function (req, res) {
 	res.sendFile(path.join(__dirname, "css", req.params.cssId))
 })
@@ -16,7 +21,6 @@ app.get("/", function (req, res) {
 app.get("/test", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/rectangle.html"))
 })
-
 app.use("/", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/404.html"))
 })
