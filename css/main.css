@@ -16,6 +16,7 @@ figure {
 }
 canvas {
 	background: #303030;
+	border: 16px solid #303030;
 }
 h1 {
 	font-size: 2em;
@@ -32,4 +33,13 @@ h4 {
 }
 pre {
 	width: 100%;
+}
+ul#variables {
+	margin: 0px;
+	padding: 0px;
+}
+ul#variables li {
+	display: inline;
+	list-style: none;
+	margin-right: 1ch;
 }
