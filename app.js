@@ -21,6 +21,9 @@ app.get("/", function (req, res) {
 app.get("/test", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/rectangle.html"))
 })
+app.get("/audio", function (req, res) {
+	res.sendFile(path.join(__dirname, "/html/audio.html"))
+})
 app.use("/", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/404.html"))
 })
