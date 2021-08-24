@@ -1,5 +1,3 @@
-// unencapsulate the runAlgo method
-
 console.info("rectangle.js is alive")
 
 const canvas = document.getElementById("theRectangle")
@@ -12,14 +10,10 @@ const sleep = function (ms) {
 // visualiser object constructor
 // visualiser means a single chart
 const SortChart = function (array) {
-	this.running = false
-	this.array = array
-	this.shownArr = []
-	this.v = {}
-	this.sorted = false
-	this.scanning = []
-	this.interval = 1000
 	this.swap = function (a, b) {
+		if (a >= array.length || b >= array.length) {
+			throw new RangeError()
+		}
 		let t = this.array[a]
 		this.array[a] = this.array[b]
 		this.array[b] = t
@@ -31,7 +25,6 @@ const SortChart = function (array) {
 			moves.push(this.array.indexOf(this.shownArr[i]))
 		}
 		// write algorithm name and variables
-		document.getElementById("algo").innerHTML = this.algo ? this.algo : "Heading"
 		document.getElementById("variables").innerHTML = ""
 		for (i in this.v) {
 			document.getElementById("variables").innerHTML += `<li>${i}: ${this.v[i]}</li>`
@@ -42,150 +35,133 @@ const SortChart = function (array) {
 		for (i in this.array) {
 			// draw bar
 			let barUnit = rectHeight / Math.max.apply(null, this.array) // height of smallest bar
-			ctx.fillStyle = "white"
+			ctx.fillStyle = "#f7f7f7"
+			if (moves[i] != i) {ctx.fillStyle = "#ffffff"}
 			if (this.scanning.indexOf(Number(i)) >= 0) {ctx.fillStyle = "red"}
-			if (this.sorted == true) {ctx.fillStyle = "green"}
+			if (this.sorted == true) {ctx.fillStyle = "lime"}
 			ctx.fillRect(i * barWidth, rectHeight - (barUnit * this.array[i]), barWidth, barUnit * this.array[i])
 		}
 		// reset shownArr
 		this.shownArr = []
 		for (i of this.array) {this.shownArr.push(i)}
 	}
-	this.runAlgo = async function (algo) {
-		if (this.running == false) {
-			this.running = true
-			this.algo = algo
-			this.v = {}
-			algos[algo][0].apply(this)
-			while (this.running) {
-				algos[algo][1].apply(this)
+	this.play = function () {
+		if (this.algo) {
+			this.running = setInterval(() => {
+				algos[this.algo]["step"].apply(this)
 				this.draw()
-				await sleep(this.interval)
-			}
+				if (this.sorted == true) {
+					this.pause()
+				}
+			}, this.interval)
+		} else {}
+	}
+	this.setAlgo = function (algo) {
+		this.pause()
+		this.algo = algo
+		this.v = {}
+		this.scanning = []
+		algos[this.algo]["init"].apply(this)
+		document.getElementById("algo").innerHTML = this.algo ? this.algo : "Heading"
+		this.draw()
+	}
+	this.pause = function () {
+		clearInterval(this.running)
+	}
+	this.setSpeed = function (ms) {
+		this.pause()
+		this.interval = ms
+		this.play()
+	}
+	this.checkSorted = function () {
+		sorted = true
+		for (i of this.array) {
+			if (i != this.array[i]) {sorted = false}
+		}
+		if (sorted == true) {
+			this.sorted = true
+			this.pause()
 		}
 	}
-	this.stop = async function () {
-		this.running = false
+	this.shuffle = function () {
+		//this.array = Array.from({length: length}, (n, i) => i + 1)
+		for (let i = this.array.length - 1; i > 0; i--) {
+			let r = Math.floor(Math.random() * (this.array.length - 1))
+			if (r) {}
+			this.swap(i,  r)
+		}
+		this.scanning = []
+		this.sorted = false
 	}
+	this.reset = function () {
+		this.pause()
+		this.shuffle()
+		if (this.algo) {algos[this.algo]["init"].apply(this)}
+		this.draw()
+	}
+	this.running = false
+	this.algo = null
+	if (typeof array == "number") {
+		this.array = Array.from({length: array}, (n, i) => i + 1)
+		this.shuffle()
+	} else {this.array = array}
+	this.shownArr = []
+	this.v = {}
+	this.sorted = false
+	this.scanning = []
+	this.interval = 5
 	this.draw()
 }
 
-/*const getMoves = function (bef, aft) {
-	let moves = []
-	for (i in bef) {
-		moves.push(aft.indexOf(bef[i]))
-	}
-	return moves
-}*/
-
-/*const drawSort = function (v, done = false) {
-	// write name and variables to document
-	document.getElementById("algo").innerHTML = algo.name
-	for (i in v.vars) {
-		document.getElementById("variables").innerHTML += `<li>${i}: ${v.vars[i]}</li>`
-	}
-	
-	let moves = getMoves(v.shownArr, v.array)
-	ctx.clearRect(0, 0, canvas.width, canvas.height) // clear canvas
-	let barWidth = canvas.getAttribute("width") / v.array.length
-	let rectHeight = Number(canvas.getAttribute("height"))
-	for (i in v.array) {
-		// draw bar
-		let barUnit = rectHeight / Math.max.apply(null, v.array)
-		ctx.fillStyle = "white"
-		if (v.scanning.indexOf(Number(i)) >= 0) {ctx.fillStyle = "red"}
-		if (done == true) {
-			ctx.fillStyle = "green"
-		}
-		ctx.fillRect(i * barWidth, rectHeight - (barUnit * v.array[i]), barWidth, barUnit * v.array[i])
-	}
-	v.shownArr = []
-	for (i of v.array) {v.shownArr.push(i)}
-	//moves = []
-}*/
-
-const bogo = function () {
-	this.v.attempts += 1
-	this.array = this.array.sort(() => Math.random() - 0.5)
-}
-
-let bubble = function (v) {
-	v.scanning = [v.vars.i, v.vars.i + 1]
-	if (v.array[v.vars.i] > v.array[v.vars.i + 1]) {
-		swap(v, v.vars.i, v.vars.i + 1)
-		v.vars.swaps++
-		v.vars.swapped = true
-	}
-	v.vars.i++
-	if (v.vars.i > v.vars.unsorted) {
-		if (v.vars.swapped = false) {
-			v.sorted = true
-		} else { 
-			v.vars.unsorted = i - 1
-			v.vars.i = 0
-			v.vars.passes++
-			v.vars.swapped = false
-		}
-	}
-}
-
 const algos = {
-	bogo: [
-		function () { // init function
+	bogo: {
+		init: function () {
 			this.v.attempts = 0
 		},
-		function () { // step function
+		step: function () {
+			this.checkSorted()
 			this.v.attempts += 1
-			this.array = this.array.sort(() => Math.random() - 0.5)}
-	],
-	bubble: [
-		function () {
-			this.v = {
-				passes: 0,
-				i: 0,
-				swaps: 0,
-				swapped: false,
-				unsorted: this.array.length
-			}
-		},
-		function () {
-			
+			this.shuffle()
 		}
-	]
+	},
+	bubble: {
+		init: function () {
+			this.v = {
+				n: this.array.length,
+				swapped: false,
+				swaps: 0,
+			}
+			this.scanning = [0, 1]
+		},
+		step: function () {
+			for (i in this.scanning) {this.scanning[i]++}
+			if (this.scanning[1] >= this.v.n) {
+				if (this.v.swapped == false) {
+					this.sorted = true
+				} else {
+					this.v.swapped = false
+					this.scanning = [0, 1]
+				}
+			}
+			[a, b] = [this.scanning[0], this.scanning[1]] // for easier reading
+			if (this.array[a] > this.array[b]) {
+				this.swap(a, b)
+				this.v.swapped = true
+				this.v.swaps++
+			}
+		}
+	}
 }
 
-/*const bubbleInit = function (v) {
-	v.vars = {
-		passes: 0,
-		i: 0,
-		swaps: 0,
-		swapped: false,
-	}
-	v.vars.unsorted = v.array.length
-	spr
-}*/
-/*inits.bubble = {
-	passes: 0,
-	i: 0,
-	swaps: 0,
-	swapped: false,
-	unsorted: 40
-}*/
+const runAlgo = function (algo, chart) {
+	if (chart.running) {clearInterval(chart.running)}
+	chart.algo = algo
+	chart.v = {}
+	algos[algo]["init"].apply(chart)
+	chart.running = setInterval(() => {
+		algos[algo]["step"].apply(chart)
+		chart.draw()
+	}, chart.interval)
+}
 
-/*const runAlgo = function (algo, v, interval) {
-	v.algo = new Algorithm(algos[algo.name])
-	v.vars = inits[algo.name]
-	drawSort(v)
-	let loop = setInterval(() => {
-		algo(v)
-		document.getElementById("variables").innerHTML = ""
-		for (i in v.vars) {
-			document.getElementById("variables").innerHTML += `<li>${i}: ${v.vars[i]}</li>`
-		}
-		drawSort(v)
-	}, interval)
-}*/
-
-let chart = new SortChart(Array.from({length: 40}, (n, i) => i + 1).sort(() => Math.random() - 0.5))
-
-
+let chart = new SortChart(80)
