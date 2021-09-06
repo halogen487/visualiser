@@ -67,7 +67,7 @@ const SortChart = function (array) {
 			this.gainNode = actx.createGain()
 			this.oscillator.connect(this.gainNode)
 			this.gainNode.connect(actx.destination)
-			this.gainNode.gain.value = 0.1
+			this.gainNode.gain.value = 0
 			this.oscillator.type = "sine"
 			try {
 				this.oscillator.start()
@@ -75,14 +75,15 @@ const SortChart = function (array) {
 		}
 	}
 	this.setAlgo = function (algo) {
-		this.pause()
 		this.algo = algo
 		this.scanning = []
-		if (algo != "check") {
-			this.v = {}
-			document.getElementById("algo").innerHTML = this.algo ? this.algo : "Heading"
+		if (this.algo) {
+			if (algo != "check") {
+				this.v = {}
+				document.getElementById("algo").innerHTML = this.algo ? this.algo : "Heading"
+			}
+			algos[this.algo]["init"].apply(this)
 		}
-		algos[this.algo]["init"].apply(this)
 		this.draw()
 	}
 	this.pause = function () {
@@ -115,20 +116,22 @@ const SortChart = function (array) {
 			if (r) {}
 			this.swap(i,  r)
 		}
+		this.setAlgo(this.algo)
 		this.scanning = []
 		this.sorted = false
 		if (this.algo) {algos[this.algo]["init"].apply(this)}
 		this.draw()
 	}
-	this.beep = function (height) {
-		try {this.oscillator.frequency.value = height + 300} catch {}
-		//oscillator.stop(actx.currentTime + (Number(this.interval) / 1500))
-		return "sure bub"
+	this.beep = function (height) { // implement logarithmic distribution
+		try {
+			this.gainNode.gain.value = 0.5
+			this.oscillator.frequency.value = height + 300
+		} catch {}
 	}
 	this.running = false
 	this.algo = null
 	this.shownArr = []
-	this.interval = 500
+	this.interval = 50
 	if (typeof array == "number") {
 		this.array = Array.from({length: array}, (n, i) => i + 1)
 		this.reset()
@@ -168,12 +171,41 @@ const algos = {
 			for (i in this.array) {
 				if (this.array[i] != goodArr[i]) {
 					sorted = false
+					break
 				}
 			}
 			if (sorted == true) {this.sorted = true}
 		}
 	},
-	bubble: {
+	boggle: {
+		init: function () {
+			this.v.comparisons = 0
+		},
+		step: function () {
+			a = Math.floor(Math.random() * (this.array.length))
+			b = Math.floor(Math.random() * (this.array.length))
+			this.scanning = [a, b]
+			if (a > b) {
+				let x = b
+				b = a
+				a = x
+			}
+			if (this.array[a] > this.array[b]) {
+				this.swap(a, b)
+			}
+			this.comparisons++
+			let goodArr = Array.from({length: this.array.length}, (v, i) => i + 1)
+			let sorted = true
+			for (i in this.array) {
+				if (this.array[i] != goodArr[i]) {
+					sorted = false
+					break
+				}
+			}
+			if (sorted == true) {this.sorted = true}
+		}
+	},
+	bubble: { // clean up
 		init: function () {
 			this.v = {
 				n: this.array.length - 1,
@@ -246,4 +278,4 @@ const runAlgo = function (algo, chart) {
 	}, chart.interval)
 }
 
-let chart = new SortChart(7)
+let chart = new SortChart(40)

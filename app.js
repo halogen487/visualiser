@@ -18,8 +18,14 @@ app.use("/js/:jsId", function (req, res) {
 app.get("/", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/index.html"))
 })
-app.get("/test", function (req, res) {
+app.get("/rectangle", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/rectangle.html"))
+})
+app.get("/tree", function (req, res) {
+	res.sendFile(path.join(__dirname, "/html/tree.html"))
+})
+app.get("/graph", function (req, res) {
+	res.sendFile(path.join(__dirname, "/html/graph.html"))
 })
 app.get("/audio", function (req, res) {
 	res.sendFile(path.join(__dirname, "/html/audio.html"))
