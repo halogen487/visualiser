@@ -1,31 +1,36 @@
 console.info("rectangle.js is alive")
 
 const canvas = document.getElementById("theRectangle")
-const ctx = canvas.getContext("2d")
+const ctx = canvas.getContext("2d") // draw to this
 
+// audio context for beeping and booping
 actx = new (window.AudioContext || window.webkitAudioContext)()
 
+// pauses for given time, currently zero references
 const sleep = function (ms) {
 	return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-// visualiser object constructor
+// sort visualiser object constructor
 // visualiser means a single chart
 const SortChart = function (array) {
+
+	// swaps values at given array indices
 	this.swap = function (a, b) {
 		if (a >= array.length || b >= array.length) {
 			throw new RangeError()
 		}
-		let t = this.array[a]
-		this.array[a] = this.array[b]
-		this.array[b] = t
+		let t = this.value[a]
+		this.value[a] = this.value[b]
+		this.value[b] = t
 	}
+	
 	this.draw = function () {
-		if (this.scanning[0]) {this.beep(this.array[this.scanning[0]])}
+		if (this.scanning[0]) {this.beep(this.value[this.scanning[0]])}
 		// calculate changes between shown array and real array
 		let moves = []
 		for (i in this.shownArr) {
-			moves.push(this.array.indexOf(this.shownArr[i]))
+			moves.push(this.value.indexOf(this.shownArr[i]))
 		}
 		// write algorithm name and variables
 		document.getElementById("variables").innerHTML = ""
@@ -33,21 +38,22 @@ const SortChart = function (array) {
 			document.getElementById("variables").innerHTML += `<li>${i}: ${this.v[i]}</li>`
 		}
 		ctx.clearRect(0, 0, canvas.width, canvas.height) // clear canvas
-		let barWidth = canvas.getAttribute("width") / this.array.length
+		let barWidth = canvas.getAttribute("width") / this.value.length
 		let rectHeight = Number(canvas.getAttribute("height"))
-		for (i in this.array) {
+		for (i in this.value) {
 			// draw bar
-			let barUnit = rectHeight / Math.max.apply(null, this.array) // height of smallest bar
+			let barUnit = rectHeight / Math.max.apply(null, this.value) // height of smallest bar
 			ctx.fillStyle = "#f7f7f7"
 			if (moves[i] != i) {ctx.fillStyle = "#ffffff"}
 			if (this.algo == "check" && i < this.checki) {ctx.fillStyle = "lime"}
 			if (this.scanning.indexOf(Number(i)) >= 0) {ctx.fillStyle = "red"}
-			ctx.fillRect(i * barWidth, rectHeight - (barUnit * this.array[i]), barWidth + 1, barUnit * this.array[i])
+			ctx.fillRect(i * barWidth, rectHeight - (barUnit * this.value[i]), barWidth + 1, barUnit * this.value[i])
 		}
 		// reset shownArr
 		this.shownArr = []
-		for (i of this.array) {this.shownArr.push(i)}
+		for (i of this.value) {this.shownArr.push(i)}
 	}
+	
 	this.play = function () {
 		if (!this.running && this.algo) {
 			if (this.sorted) {
@@ -74,6 +80,7 @@ const SortChart = function (array) {
 			} catch {}
 		}
 	}
+	
 	this.setAlgo = function (algo) {
 		this.algo = algo
 		this.scanning = []
@@ -86,11 +93,13 @@ const SortChart = function (array) {
 		}
 		this.draw()
 	}
+	
 	this.pause = function () {
 		clearInterval(this.running)
 		this.running = null
 		if (this.oscillator) {this.oscillator.stop()}
 	}
+	
 	this.setSpeed = function (ms) {
 		let on = this.running
 		this.pause()
@@ -100,19 +109,19 @@ const SortChart = function (array) {
 		}
 	}
 	this.setLength = function (n) {
-		let o = this.array.length
-		this.array.splice(o - (o - n))
+		let o = this.value.length
+		this.value.splice(o - (o - n))
 		for (let i = 0; i < n - o; i++) {
-			this.array.push(o + i + 1)
+			this.value.push(o + i + 1)
 		}
 		this.draw()
 	}
 	this.reset = function () {
 		this.pause()
 		if (this.algo == "check") {this.algo = null}
-		this.array = Array.from({length: this.array.length}, (n, i) => i + 1)
-		for (let i = this.array.length - 1; i > 0; i--) {
-			let r = Math.floor(Math.random() * (this.array.length - 1))
+		this.value = Array.from({length: this.value.length}, (n, i) => i + 1)
+		for (let i = this.value.length - 1; i > 0; i--) {
+			let r = Math.floor(Math.random() * (this.value.length - 1))
 			if (r) {}
 			this.swap(i,  r)
 		}
@@ -128,14 +137,14 @@ const SortChart = function (array) {
 			this.oscillator.frequency.value = height + 300
 		} catch {}
 	}
-	this.running = false
+	this.running = null
 	this.algo = null
 	this.shownArr = []
 	this.interval = 50
 	if (typeof array == "number") {
-		this.array = Array.from({length: array}, (n, i) => i + 1)
+		this.value = Array.from({length: array}, (n, i) => i + 1)
 		this.reset()
-	} else {this.array = array}
+	} else {this.value = array}
 	this.draw()
 }
 
@@ -147,7 +156,7 @@ const algos = {
 		},
 		step: function () {
 			this.scanning = [this.checki, this.checki + 1]
-			if (this.checki <= this.array.length) {
+			if (this.checki <= this.value.length) {
 				
 			} else {
 				this.sorted = true
@@ -161,15 +170,15 @@ const algos = {
 		},
 		step: function () {
 			this.v.attempts += 1
-			for (let i = this.array.length - 1; i > 0; i--) {
-				let r = Math.floor(Math.random() * (this.array.length - 1))
+			for (let i = this.value.length - 1; i > 0; i--) {
+				let r = Math.floor(Math.random() * (this.value.length - 1))
 				if (r) {}
 				this.swap(i,  r)
 			}
-			let goodArr = Array.from({length: this.array.length}, (v, i) => i + 1)
+			let goodArr = Array.from({length: this.value.length}, (v, i) => i + 1)
 			let sorted = true
-			for (i in this.array) {
-				if (this.array[i] != goodArr[i]) {
+			for (i in this.value) {
+				if (this.value[i] != goodArr[i]) {
 					sorted = false
 					break
 				}
@@ -182,22 +191,22 @@ const algos = {
 			this.v.comparisons = 0
 		},
 		step: function () {
-			a = Math.floor(Math.random() * (this.array.length))
-			b = Math.floor(Math.random() * (this.array.length))
+			a = Math.floor(Math.random() * (this.value.length))
+			b = Math.floor(Math.random() * (this.value.length))
 			this.scanning = [a, b]
 			if (a > b) {
 				let x = b
 				b = a
 				a = x
 			}
-			if (this.array[a] > this.array[b]) {
+			if (this.value[a] > this.value[b]) {
 				this.swap(a, b)
 			}
 			this.comparisons++
-			let goodArr = Array.from({length: this.array.length}, (v, i) => i + 1)
+			let goodArr = Array.from({length: this.value.length}, (v, i) => i + 1)
 			let sorted = true
-			for (i in this.array) {
-				if (this.array[i] != goodArr[i]) {
+			for (i in this.value) {
+				if (this.value[i] != goodArr[i]) {
 					sorted = false
 					break
 				}
@@ -208,12 +217,12 @@ const algos = {
 	bubble: { // clean up
 		init: function () {
 			this.v = {
-				n: this.array.length - 1,
-				newn: this.array.length - 1,
+				n: this.value.length - 1,
+				newn: this.value.length - 1,
 				swapped: true,
 				comparisons: 0
 			}
-			this.scanning = [this.array.length, this.array.length + 1]
+			this.scanning = [this.value.length, this.value.length + 1]
 		},
 		step: function () {
 			for (i in this.scanning) {this.scanning[i]++}
@@ -229,7 +238,7 @@ const algos = {
 			}
 			[a, b] = [this.scanning[0], this.scanning[1]] // for easier reading
 			this.v.comparisons++
-			if (this.array[a] > this.array[b]) {
+			if (this.value[a] > this.value[b]) {
 				this.swap(a, b)
 				this.v.newn = this.scanning[0]
 				this.v.swapped = true
@@ -250,10 +259,10 @@ const algos = {
 			}
 		},
 		step: function () {
-			if (this.v.i < this.array.length) {
+			if (this.v.i < this.value.length) {
 				this.scanning = [this.v.j, this.v.j - 1]
 				this.v.comparisons++
-				if (this.v.j > 0 && this.array[this.v.j - 1] > this.array[this.v.j]) {
+				if (this.v.j > 0 && this.value[this.v.j - 1] > this.value[this.v.j]) {
 					this.swap(this.v.j, this.v.j - 1)
 					this.v.j--
 				} else {
@@ -265,17 +274,6 @@ const algos = {
 			}
 		}
 	}
-}
-
-const runAlgo = function (algo, chart) {
-	if (chart.running) {clearInterval(chart.running)}
-	chart.algo = algo
-	chart.v = {}
-	algos[algo]["init"].apply(chart)
-	chart.running = setInterval(() => {
-		algos[algo]["step"].apply(chart)
-		chart.draw()
-	}, chart.interval)
 }
 
 let chart = new SortChart(40)
