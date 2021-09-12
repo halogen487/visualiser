@@ -10,12 +10,14 @@ const GraphNode = function (id, to) {
 	this.y = null
 }
 
+const GraphChart = function (nodeCount, maxTos) {
+	this.
+}
+
 let graph = []
 for (i = 0; i < 10; i++) {
 	let toCount = Math.floor(Math.random() * 3) + 1
 	let tos = []
-	console.log(toCount)
 	for (j = 0; j < toCount; j++) {tos.push(Math.floor(Math.random() * 10))}
 	graph.push(new GraphNode(i, tos))
 }
-console.log(graph)
