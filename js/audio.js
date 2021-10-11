@@ -1,3 +1,7 @@
+/*
+	audio context testing script
+*/
+
 actx = new (window.AudioContext || window.webkitAudioContext)()
 let oscillator = actx.createOscillator()
 let gainNode = actx.createGain()

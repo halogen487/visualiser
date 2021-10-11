@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+/*
+	core node.js server
+*/
+
 const express = require("express"); const app = express()
 const path = require("path")
 

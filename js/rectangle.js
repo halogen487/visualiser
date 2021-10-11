@@ -1,3 +1,7 @@
+/*
+	main script for core classes and barchart
+*/
+
 console.info("rectangle.js is alive")
 
 const canvas = document.getElementById("theRectangle")

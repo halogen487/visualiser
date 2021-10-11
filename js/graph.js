@@ -1,3 +1,7 @@
+/*
+	graph chart class for testing
+*/
+
 console.info("graph.js is alive")
 
 const canvas = document.getElementById("theGraph")

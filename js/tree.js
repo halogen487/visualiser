@@ -1,3 +1,7 @@
+/*
+	tree chart class for testing
+*/
+
 console.info("tree.js is alive")
 
 const canvas = document.getElementById("theTree")
@@ -36,13 +40,13 @@ const TreeChart = function (height, maxChildren) {
 		let childCount = Math.floor(Math.random() * maxChildren + 1)
 		let children = []
 		if (height > 1) {
-			for (let i = 0; i < childCount; i++) {
+			for (i = 0; i < childCount; i++) {
 				children.push(this.generateTree(height - 1, maxChildren))
 				this.r++
 			}
 		}
 		return new Tree(this.r, children)
-	}	
+	}
 	
 	this.draw = function () {
 		
