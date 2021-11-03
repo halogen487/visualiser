@@ -25,6 +25,8 @@ const ctx = canvas.getContext("2d")
 const Tree = function (value, children) {
 	this.value = value
 	this.children = children // array of Trees
+	this.x = null
+	this.y = null
 	this.traverse = function (order) {
 		let traversal = []
 		if (order == "pre") {traversal.push(this.value)}

@@ -2,6 +2,15 @@
 	main script for core classes and barchart
 */
 
+let fasterer = true
+let fasti = 0
+let bets = []
+
+function addBet(name, attempts) {
+	bets.push({name: name, attempts: attempts})
+	document.getElementById("betstable").innerHTML += `<tr><td>${name}</td><td>${attempts}</td></tr>`
+}
+
 console.info("rectangle.js is alive")
 
 const canvas = document.getElementById("theRectangle")
@@ -68,6 +77,7 @@ const SortChart = function (array) {
 	}
 	
 	this.draw = function () {
+		if ((fasterer && fasti == 0) || this.done) {
 		if (this.scanning[0]) {this.beep(this.value[this.scanning[0]])}
 		// calculate changes between shown array and real array
 		let moves = []
@@ -94,6 +104,8 @@ const SortChart = function (array) {
 		// reset shownValue
 		this.shownValue = []
 		for (i of this.value) {this.shownValue.push(i)}
+		if (this.fasti > 5) {this.fasti = 0} else {this.fasti++}
+		}
 	}
 	
 	this.play = function () {
@@ -259,10 +271,9 @@ const algos = {
 				this.v.swapped = true
 			}
 		}
-		//step: function () {}
 	},
 	cocktail: {
-		init: function () {},
+		init: function () {}, 
 		step: function () {}
 	},
 	insertion: {
