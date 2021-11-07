@@ -1,3 +1,3 @@
 # visualiser
 
-No code as of yet. If you want a readme, look at the analysis doc.
+The project analysis document will tell you what this does (or should do).
