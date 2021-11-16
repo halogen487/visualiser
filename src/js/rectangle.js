@@ -1,15 +1,8 @@
+import "./classes.js"
+
 /*
 	main script for core classes and barchart
 */
-
-let fasterer = true
-let fasti = 0
-let bets = []
-
-function addBet(name, attempts) {
-	bets.push({name: name, attempts: attempts})
-	document.getElementById("betstable").innerHTML += `<tr><td>${name}</td><td>${attempts}</td></tr>`
-}
 
 console.info("rectangle.js is alive")
 
@@ -17,9 +10,9 @@ const canvas = document.getElementById("theRectangle")
 const ctx = canvas.getContext("2d") // draw to this
 
 // audio context for beeping and booping
-actx = new (window.AudioContext || window.webkitAudioContext)()
+const actx = new (window.AudioContext || window.webkitAudioContext)()
 
-const GraphNode = function (id, to) {
+function GraphNode (id, to) {
 	this.id = id
 	this.to = to
 	this.x = null
@@ -28,7 +21,7 @@ const GraphNode = function (id, to) {
 
 // visualiser parent class
 // means a single chart
-const Chart = function () {
+function Chart () {
 	this.pause = function () {
 		clearInterval(this.running)
 		this.running = null
@@ -62,7 +55,7 @@ const Chart = function () {
 }
 
 // barchart visualiser object constructor
-const SortChart = function (array) {
+function SortChart (array) {
 	
 	Chart.call(this)
 	
@@ -81,19 +74,18 @@ const SortChart = function (array) {
 		if (this.scanning[0]) {this.beep(this.value[this.scanning[0]])}
 		// calculate changes between shown array and real array
 		let moves = []
-		for (i in this.shownValue) {
+		for (let i in this.shownValue) {
 			moves.push(this.value.indexOf(this.shownValue[i]))
 		}
 		// write algorithm name and variables
 		document.getElementById("variables").innerHTML = ""
-		for (i in this.v) {
+		for (let i in this.v) {
 			document.getElementById("variables").innerHTML += `<li>${i}: ${this.v[i]}</li>`
 		}
-		if ((fasterer && fasti == 0) || this.done) {
 		ctx.clearRect(0, 0, canvas.width, canvas.height) // clear canvas
 		let barWidth = canvas.getAttribute("width") / this.value.length
 		let rectHeight = Number(canvas.getAttribute("height"))
-		for (i in this.value) {
+		for (let i in this.value) {
 			// draw bar
 			let barUnit = rectHeight / Math.max.apply(null, this.value) // height of smallest bar
 			ctx.fillStyle = "#f7f7f7"
@@ -104,9 +96,7 @@ const SortChart = function (array) {
 		}
 		// reset shownValue
 		this.shownValue = []
-		for (i of this.value) {this.shownValue.push(i)}
-		if (this.fasti > 50) {this.fasti = 0} else {this.fasti++}
-		}
+		for (let i of this.value) {this.shownValue.push(i)}
 	}
 	
 	this.play = function () {
@@ -233,7 +223,7 @@ const algos = {
 			this.comparisons++
 			let goodArr = Array.from({length: this.value.length}, (v, i) => i + 1)
 			let done = true
-			for (i in this.value) {
+			for (let i in this.value) {
 				if (this.value[i] != goodArr[i]) {
 					done = false
 					break
@@ -253,7 +243,7 @@ const algos = {
 			this.scanning = [this.value.length, this.value.length + 1]
 		},
 		step: function () {
-			for (i in this.scanning) {this.scanning[i]++}
+			for (let i in this.scanning) {this.scanning[i]++}
 			if (this.scanning[1] >= this.v.n) { // at end
 				if (this.v.n <= 1) {
 					this.done = true
@@ -303,4 +293,4 @@ const algos = {
 	}
 }
 
-let chart = new SortChart(40)
+var chart = new SortChart(40)
