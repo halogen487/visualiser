@@ -1,3 +1,5 @@
+import * as algos from "./algos.js"
+
 /*
 	classes for abstract structures and charts
 */
@@ -11,10 +13,51 @@ export function GraphNode (id, to) {
 }
 
 export function TreeNode (id, to) {
-
 	GraphNode.call(this)
-
 }
+
+export function Chart () {
+
+	this.pause = function () {
+		clearInterval(this.running)
+		this.running = null
+	}
+
+	this.setAlgo = function (algo) {
+		this.algo = algo
+		this.scanning = []
+		if (this.algo) {
+			if (algo != "check") {
+				this.v = {}
+				document.getElementById("algo").innerHTML = this.algo ? this.algo : "Heading"
+			}
+			algos[this.algo]["init"].apply(this)
+		}
+		this.draw()
+	}
+	this.setSpeed = function (ms) {
+		this.pause()
+		this.interval = ms
+		if (this.running) {
+			this.play()
+		}
+	}
+
+	this.ele = document.getElementById("theRectangle")
+	this.ele.querySelector(".reset").addEventListener("onclick", this.reset)
+	this.ele.querySelector(".play").addEventListener("onclick", (evt) => {console.log("!!")})
+	this.ele.querySelector(".pause").addEventListener("onclick", this.pause)
+	this.ctx = this.ele.querySelector("canvas").getContext("2d")
+
+	console.log("??")
+	this.running = null
+	this.value = null
+	this.shownValue = null
+	this.algo = null
+	this.interval = 50
+	this.scanning = null
+}
+
 
 export function GraphChart (nodeCount, maxTos) {
 
@@ -83,4 +126,115 @@ export function TreeChart (height, maxChildren) {
 	this.maxChildren = maxChildren
 
 	this.reset()
+}
+
+export function SortChart (length) {
+
+	Chart.call(this)
+
+	this.done = false
+	// swaps values at given array indices
+	this.swap = function (a, b) {
+		if (a >= length || b >= length) {
+			throw new RangeError()
+		}
+		let t = this.value[a]
+		this.value[a] = this.value[b]
+		this.value[b] = t
+	}
+
+	this.draw = function () {
+		if (this.scanning[0]) {this.beep(this.value[this.scanning[0]])}
+		// calculate changes between shown array and real array
+		let moves = []
+		for (let i in this.shownValue) {
+			moves.push(this.value.indexOf(this.shownValue[i]))
+		}
+		// write algorithm name and variables
+		document.getElementById("variables").innerHTML = ""
+		for (let i in this.v) {
+			document.getElementById("variables").innerHTML += `<li>${i}: ${this.v[i]}</li>`
+		}
+		this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height) // clear canvas
+		let barWidth = this.ctx.canvas.getAttribute("width") / this.value.length
+		let rectHeight = Number(this.ctx.canvas.getAttribute("height"))
+		for (let i in this.value) {
+			// draw bar
+			let barUnit = rectHeight / Math.max.apply(null, this.value) // height of smallest bar
+			this.ctx.fillStyle = "#f7f7f7"
+			if (moves[i] != i) {this.ctx.fillStyle = "#ffffff"}
+			if (this.algo == "check" && i < this.checki) {this.ctx.fillStyle = "lime"}
+			if (this.scanning.indexOf(Number(i)) >= 0) {this.ctx.fillStyle = "red"}
+			this.ctx.fillRect(i * barWidth, rectHeight - (barUnit * this.value[i]), barWidth + 1, barUnit * this.value[i])
+		}
+		// reset shownValue
+		this.shownValue = []
+		for (let i of this.value) {this.shownValue.push(i)}
+	}
+
+	this.play = function () {
+		if (!this.running && this.algo) {
+			if (this.done) {
+				this.reset()
+			}
+			if (this.algo) {
+				this.running = setInterval(() => {
+					algos[this.algo]["step"].apply(this)
+					this.draw()
+					if (this.done && this.algo != "check") {
+						this.setAlgo("check")
+						this.play()
+					} else if (this.done) {this.pause()}
+				}, this.interval)
+			}
+			try {
+				this.oscillator.start()
+			} catch {}
+		}
+	}
+	this.setLength = function (n) {
+		let o = this.value.length
+		this.value.splice(o - (o - n))
+		for (let i = 0; i < n - o; i++) {
+			this.value.push(o + i + 1)
+		}
+		this.draw()
+	}
+	this.reset = function (length) {
+		if (!length) {length = this.value.length}
+		this.pause()
+		if (this.algo == "check") {this.algo = null}
+		this.value = Array.from({length: length}, (n, i) => i + 1)
+		for (let i = length - 1; i > 0; i--) {
+			let r = Math.floor(Math.random() * (length - 1))
+			if (r) {}
+			this.swap(i,  r)
+		}
+		this.setAlgo(this.algo)
+		this.scanning = []
+		this.done = false
+		if (this.algo) {algos[this.algo]["init"].apply(this)}
+		this.draw()
+	}
+	this.beep = function (height) { // implement logarithmic distribution
+		try {
+			this.vol.gain.value = 0.5
+			this.oscillator.frequency.value = height + 300
+		} catch {}
+	}
+	this.running = null
+	this.algo = null
+	this.shownValue = []
+	this.interval = 50
+
+	this.actx = new (window.AudioContext || window.webkitAudioContext)()
+	this.oscillator = this.actx.createOscillator()
+	this.vol = this.actx.createGain()
+	this.oscillator.connect(this.vol)
+	this.vol.connect(this.actx.destination)
+	this.vol.gain.value = 0
+	this.oscillator.type = "sine"
+
+	this.reset(length)
+	this.draw()
 }

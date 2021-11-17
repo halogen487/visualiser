@@ -8,4 +8,3 @@ const canvas = document.getElementById("theTree")
 const ctx = canvas.getContext("2d")
 
 let xmp = new TreeChart(3, 3)
-

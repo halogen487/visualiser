@@ -1,42 +1,176 @@
-GET request for / from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /tree from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/tree.js from ::ffff:127.0.0.1
-GET request for / from ::ffff:94.251.19.230
-GET request for / from ::ffff:64.227.35.244
-GET request for / from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
-GET request for /sort from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/rectangle.js from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
-GET request for /sort from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/rectangle.js from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
-GET request for /sort from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/rectangle.js from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
-GET request for /sort from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/rectangle.js from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
-GET request for / from ::ffff:167.71.236.120
-GET request for /sort from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/rectangle.js from ::ffff:127.0.0.1
-GET request for /js/classes.js from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
-GET request for /sort from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/rectangle.js from ::ffff:127.0.0.1
-GET request for /js/classes.js from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
-GET request for /sort from ::ffff:127.0.0.1
-GET request for /css/main.css from ::ffff:127.0.0.1
-GET request for /js/rectangle.js from ::ffff:127.0.0.1
-GET request for /js/classes.js from ::ffff:127.0.0.1
-GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T09:46:52.984Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T09:46:53.085Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T09:46:53.089Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T09:46:53.142Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T09:46:53.144Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T09:46:53.353Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T09:47:02.059Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T09:47:02.173Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T09:47:02.176Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T09:47:02.238Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T09:47:02.241Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T09:47:02.402Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:27:42.385Z: GET request for / from ::ffff:127.0.0.1
+2021-11-17T11:27:42.480Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:28:01.668Z: GET request for /tree from ::ffff:127.0.0.1
+2021-11-17T11:28:01.784Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:28:01.789Z: GET request for /js/tree.js from ::ffff:127.0.0.1
+2021-11-17T11:28:05.768Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:28:07.964Z: GET request for /graph from ::ffff:127.0.0.1
+2021-11-17T11:28:08.082Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:28:08.088Z: GET request for /js/graph.js from ::ffff:127.0.0.1
+2021-11-17T11:28:08.152Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:30:33.530Z: GET request for /graph from ::ffff:127.0.0.1
+2021-11-17T11:30:33.642Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:30:33.649Z: GET request for /js/graph.js from ::ffff:127.0.0.1
+2021-11-17T11:30:33.737Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:30:43.082Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:30:44.370Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:30:44.494Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:30:44.497Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:30:44.551Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:30:44.560Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:30:44.600Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:32:34.825Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:32:34.936Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:32:34.952Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:32:35.005Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:32:35.007Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:32:35.052Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:32:55.694Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:32:55.791Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:32:55.794Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:32:55.855Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:32:55.872Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:32:55.920Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:33:08.681Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:33:08.833Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:33:08.835Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:33:08.899Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:33:08.903Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:33:09.030Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:35:08.280Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:35:08.388Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:35:08.390Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:35:08.434Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:35:08.442Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:35:08.523Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:35:28.663Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:35:28.790Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:35:28.792Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:35:28.868Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:35:28.875Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:35:28.945Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:37:33.912Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:37:34.008Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:37:34.010Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:37:34.050Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:37:34.051Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:37:48.617Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:37:48.749Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:37:48.761Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:37:48.845Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:37:48.846Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:37:48.933Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:37:55.446Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:37:55.555Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:37:55.560Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:37:55.613Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:37:55.617Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:37:55.726Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:41:18.575Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:41:18.695Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:41:18.706Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:41:18.792Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:41:18.795Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:41:19.032Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:43:16.090Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:43:16.266Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:43:16.267Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:43:16.359Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:43:16.360Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:43:16.458Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:44:00.163Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:44:00.295Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:44:00.297Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:44:00.416Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:44:00.417Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:44:00.535Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:44:25.090Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:44:25.196Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:44:25.204Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:44:25.269Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:44:25.287Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:44:25.391Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T11:44:31.365Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T11:44:31.459Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T11:44:31.467Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T11:44:31.510Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T11:44:31.517Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T11:44:31.614Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:44:13.749Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:44:13.852Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:44:13.863Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:44:13.951Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:44:13.953Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:44:14.175Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:45:37.331Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:45:37.458Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:45:37.461Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:45:37.525Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:45:37.527Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:45:37.593Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:45:50.314Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:45:50.448Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:45:50.459Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:45:50.520Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:45:50.522Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:45:50.626Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:46:52.860Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:46:52.997Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:46:52.999Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:46:53.082Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:46:53.082Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:46:53.294Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:47:43.394Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:47:43.518Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:47:43.524Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:47:43.612Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:47:43.613Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:47:43.701Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:49:36.011Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:49:36.134Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:49:36.145Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:49:36.225Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:49:36.227Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:49:36.327Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:50:30.583Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:50:30.679Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:50:30.682Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:50:30.730Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:50:30.731Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:50:30.812Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:50:43.303Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:50:43.395Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:50:43.397Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:50:43.454Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:50:43.455Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:50:43.548Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:51:16.810Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:51:16.907Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:51:16.917Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:51:16.956Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:51:17.011Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:51:17.048Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:51:47.154Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:51:47.235Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:51:47.240Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:51:47.280Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:51:47.314Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:51:47.425Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2021-11-17T12:51:51.149Z: GET request for /sort from ::ffff:127.0.0.1
+2021-11-17T12:51:51.266Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2021-11-17T12:51:51.267Z: GET request for /js/rectangle.js from ::ffff:127.0.0.1
+2021-11-17T12:51:51.318Z: GET request for /js/classes.js from ::ffff:127.0.0.1
+2021-11-17T12:51:51.374Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2021-11-17T12:51:51.494Z: GET request for /favicon.ico from ::ffff:127.0.0.1

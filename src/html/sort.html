@@ -7,8 +7,15 @@
 </head>
 <body>
 	<main>
-		<article>
-			<h1 id="algo">Heading</h1>
+		<article id="theRectangle">
+			<h1 id="algo">
+				<select class="algoSelect">
+					<option value="bubble">bubble</option>
+					<option value="bogo">bogo</option>
+					<option value="boggle">boggle</option>
+					<option value="insertion">insertion</option>
+				</select>
+			</h1>
 			<figure>
 				<canvas id="theRectangle" width="768" height="512"></canvas>
 				<figcaption>
@@ -16,13 +23,9 @@
 				</figcaption>
 				<script src="/js/rectangle.js" type="module"></script>
 			</figure>
-			<button onclick="chart.play()">play</button>
-			<button onclick="chart.pause()">pause</button>
-			<button onclick="chart.reset()">reset</button>
-			<button onclick="chart.setAlgo('bogo')">bogo</button>
-			<button onclick="chart.setAlgo('boggle')">boggle</button>
-			<button onclick="chart.setAlgo('bubble')">bubble</button>
-			<button onclick="chart.setAlgo('insertion')">insertion</button>
+			<button class="play">play</button>
+			<button class="pause">pause</button>
+			<button class="reset">reset</button>
 		</article>
 	</main>
 </body>

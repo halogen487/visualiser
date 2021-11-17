@@ -9,7 +9,7 @@ const path = require("path")
 const fs = require("fs")
 
 app.use(function (req, res, next) {
-	let line = `${req.method} request for ${req.url} from ${req.ip}`
+	let line = `${(new Date).toISOString()}: ${req.method} request for ${req.url} from ${req.ip}`
 	console.log(line)
 	fs.appendFile(path.join(__dirname, "http.log"), line + "\n", (err) => {if (err) {console.log(err)}})
 	next()
