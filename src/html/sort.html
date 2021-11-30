@@ -7,26 +7,13 @@
 	<script src="/js/rectangle.js" type="module" defer="yes"></script>
 </head>
 <body>
+	<header>
+		<button class="control">play</button>
+		<button class="control">pause</button>
+		<button class="control">reset</button>
+	</header>
 	<main>
-		<article id="theRectangle">
-			<h1 id="algo">
-				<select class="algoSelect">
-					<option value="bubble">bubble</option>
-					<option value="bogo">bogo</option>
-					<option value="boggle">boggle</option>
-					<option value="insertion">insertion</option>
-				</select>
-			</h1>
-			<figure>
-				<canvas id="theRectangle" width="768" height="512"></canvas>
-				<figcaption>
-					<ul id="variables"></ul>
-				</figcaption>
-			</figure>
-			<button id="play">play</button>
-			<button id="pause">pause</button>
-			<button id="reset">reset</button>
-		</article>
+			<div id="charts-go-here"></div>
 	</main>
 </body>
 </html>

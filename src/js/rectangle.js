@@ -17,25 +17,57 @@ function GraphNode (id, to) {
 function TreeNode (id, to) {
 	GraphNode.call(this)
 }
+
 function Chart () {
+	if (charts[0]) {
+		this.id = Number(Object.keys(charts)[Object.keys(charts).length - 1]) + 1
+	} else {
+		this.id = 0
+	}
+	console.log("new chart", this.id)
+	document.querySelector("#charts-go-here").insertAdjacentHTML("beforeend", `
+		<article id="chart${this.id}">
+			<h1 class="algo">
+				<select class="algoSelect">
+					<option value="bubble">bubble</option>
+					<option value="bogo">bogo</option>
+					<option value="boggle">boggle</option>
+					<option value="insertion">insertion</option>
+				</select>
+			</h1>
+			<figure>
+				<canvas width="768" height="512"></canvas>
+				<figcaption>
+					<ul class="variables"></ul>
+				</figcaption>
+			</figure>
+		</article>
+	`)
+	this.ele = document.querySelector(`#chart${this.id}`)
+	this.ctx = this.ele.querySelector("canvas").getContext("2d")
+	this.ele.querySelector(".algoSelect").addEventListener("onChange", (evt) => {
+		charts[this.id].setAlgo()
+	})
 
 	this.pause = function () {
 		clearInterval(this.running)
 		this.running = null
 		try {this.oscillator.stop()} catch {}
+		return this
 	}
 
 	this.setAlgo = function (algo) {
 		this.algo = algo
+		if (algo != "check") {this.actualAlgo = algo}
 		this.scanning = []
 		if (this.algo) {
 			if (algo != "check") {
 				this.v = {}
-				document.getElementById("algo").innerHTML = this.algo ? this.algo : "Heading"
 			}
 			algos[this.algo]["init"].apply(this)
 		}
 		this.draw()
+		return this
 	}
 	this.setSpeed = function (ms) {
 		this.pause()
@@ -43,10 +75,8 @@ function Chart () {
 		if (this.running) {
 			this.play()
 		}
+		return this
 	}
-
-	this.ele = document.getElementById("theRectangle")
-	this.ctx = this.ele.querySelector("canvas").getContext("2d")
 
 	this.running = null
 	this.value = null
@@ -67,6 +97,7 @@ function GraphChart (nodeCount, maxTos) {
 			for (j = 0; j < toCount; j++){tos.push(Math.floor(Math.random() * 10))}
 			this.value.push(new GraphNode(i, tos))
 		}
+		return this
 	}
 }
 
@@ -81,6 +112,7 @@ function TreeChart (height, maxChildren) {
 				this.r++
 			}
 		}
+		return this
 	}
 
 	this.draw = function () {
@@ -139,9 +171,10 @@ function SortChart (length) {
 		let t = this.value[a]
 		this.value[a] = this.value[b]
 		this.value[b] = t
+		return this
 	}
 
-	this.draw = function () {
+	this.draw = function (timestamp) {
 		if (this.scanning[0] && config.sound) {this.beep(this.value[this.scanning[0]])}
 		// calculate changes between shown array and real array
 		let moves = []
@@ -149,9 +182,9 @@ function SortChart (length) {
 			moves.push(this.value.indexOf(this.shownValue[i]))
 		}
 		// write algorithm name and variables
-		document.getElementById("variables").innerHTML = ""
+		this.ele.querySelector(".variables").innerHTML = ""
 		for (let i in this.v) {
-			document.getElementById("variables").innerHTML += `<li>${i}: ${this.v[i]}</li>`
+			this.ele.querySelector(".variables").innerHTML += `<li>${i}: ${this.v[i]}</li>`
 		}
 		this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height) // clear canvas
 		let barWidth = this.ctx.canvas.getAttribute("width") / this.value.length
@@ -168,9 +201,11 @@ function SortChart (length) {
 		// reset shownValue
 		this.shownValue = []
 		for (let i of this.value) {this.shownValue.push(i)}
+		return this
 	}
 
 	this.play = function () {
+		console.info(this.id, "playing", this.algo)
 		if (!this.running && this.algo) {
 			if (this.done) {
 				this.reset()
@@ -183,14 +218,11 @@ function SortChart (length) {
 						this.setAlgo("check")
 						this.play()
 					} else if (this.done) {
+						this.pause()
 						if (config.loop) {
-							this.reset()
-							let options = Object.keys(algos)
-							let choiceno = Math.floor(Math.random() * options.length - 1)
-							this.setAlgo(algos[choiceno])
+							let options = ["bubble", "insertion"]
+							this.setAlgo(options[Math.floor(Math.random() * options.length)])
 							this.play()
-						} else {
-							this.pause()
 						}
 					}
 				}, this.interval)
@@ -199,6 +231,7 @@ function SortChart (length) {
 				this.oscillator.start()
 			} catch {}
 		}
+		return this
 	}
 	this.setLength = function (n) {
 		let o = this.value.length
@@ -207,11 +240,12 @@ function SortChart (length) {
 			this.value.push(o + i + 1)
 		}
 		this.draw()
+		return this
 	}
 	this.reset = function (length) {
 		if (!length) {length = this.value.length}
 		this.pause()
-		if (this.algo == "check") {this.algo = null}
+		if (this.algo == "check") {this.algo = this.actualAlgo}
 		this.value = Array.from({length: length}, (n, i) => i + 1)
 		for (let i = length - 1; i > 0; i--) {
 			let r = Math.floor(Math.random() * (length - 1))
@@ -222,17 +256,17 @@ function SortChart (length) {
 		this.done = false
 		if (this.algo) {algos[this.algo]["init"].apply(this)}
 		this.draw()
+		return this
 	}
 	this.beep = function (height) { // implement logarithmic distribution
 		try {
 			this.vol.gain.value = 0.5
 			this.oscillator.frequency.value = height + 300
 		} catch {}
+		return this
 	}
 	this.running = null
-	this.algo = null
-	this.shownValue = []
-	this.interval = 50
+	this.actualAlgo = null
 
 	this.actx = new (window.AudioContext || window.webkitAudioContext)()
 	this.oscillator = this.actx.createOscillator()
@@ -246,34 +280,58 @@ function SortChart (length) {
 	this.draw()
 }
 
-function playAll() {
+function stepAll () {
 	for (let i of charts) {
-		i.play()
+		i.step()
+	}
+	requestAnimationFrame(() => {})
+}
+
+function buttHandler (evt) {
+	for (let chart in Object.keys(charts)) {
+		charts[chart][evt.target.innerText]()
 	}
 }
 
-function pauseAll () {
-	for (let i of charts) {
-		i.pause()
-	}
+function addChart (chart) {
+	charts[chart.id] = chart
 }
 
-function resetAll () {
+function removeChart (id) {}
+
+function resetCharts () {
+	let cgh = document.querySelector("#charts-go-here")
+	cgh.innerHTML = ""
 	for (let i of charts) {
-		i.reset()
+		add
 	}
 }
 
 var config = {
-	loop: true,
+	loop: false,
 	sound: false
 }
-var charts = []
 
-document.getElementById("play").addEventListener("click", playAll)
-document.getElementById("pause").addEventListener("click", pauseAll)
-document.getElementById("reset").addEventListener("click", resetAll)
-charts.push(new SortChart(40))
-charts[0].setSpeed(0)
+var charts = {}
 
-charts[0].setAlgo("insertion")
+for (let i of document.querySelectorAll(".control")) {
+	i.addEventListener("click", buttHandler)
+}
+
+// -----------------------------------------------------------------------------
+
+addChart(new SortChart(40))
+addChart(new SortChart(40))
+addChart(new SortChart(40))
+addChart(new SortChart(8))
+
+charts["0"].setAlgo("insertion")
+charts["1"].setAlgo("bubble")
+charts["2"].setAlgo("boggle").setSpeed(2)
+charts["3"].setAlgo("bogo").setSpeed(0)
+
+/*
+let options = ["bubble", "insertion"]
+this.setAlgo(options[Math.floor(Math.random() * options.length - 1)])
+this.play()
+*/
