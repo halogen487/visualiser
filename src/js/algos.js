@@ -7,19 +7,19 @@ export function Algorithm (init, step, chartType) {
 export var algos = {
 	check: new Algorithm (
 	// doesn't actually check, just does the whoosh
-	function () {
-		this.checki = 0;
-		this.done = false;
-	},
-	function () {
-		this.scanning = [this.checki, this.checki + 1];
-		if (this.checki <= this.value.length) {
-		} else {
-		  this.done = true;
-		}
-		this.checki++;
-	},
-
+		function () {
+			this.checki = 0;
+			this.done = false;
+		},
+		function () {
+			this.scanning = [this.checki, this.checki + 1];
+			if (this.checki <= this.value.length) {
+			} else {
+			  this.done = true;
+			}
+			this.checki++;
+		},
+		"sort"
 	),
 	bogo: new Algorithm (
 		function () {
@@ -45,6 +45,7 @@ export var algos = {
 			  this.done = true;
 			}
 		},
+		"sort"
 	),
 	boggle: new Algorithm (
 		function () {
@@ -76,6 +77,7 @@ export var algos = {
 				this.done = true;
 			}
 		},
+		"sort"
 	),
 	bubble: new Algorithm (
 		// clean up
@@ -111,6 +113,7 @@ export var algos = {
 				this.v.swapped = true;
 			}
 		},
+		"sort"
 	),
 	cocktail: new Algorithm (
 		function () {},
@@ -138,6 +141,7 @@ export var algos = {
 			} else {
 				this.done = true;
 			}
-		}
+		},
+		"sort"
 	)
 }

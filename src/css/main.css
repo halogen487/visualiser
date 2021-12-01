@@ -17,6 +17,7 @@ main {
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
+	align-items: center;
 }
 article {
 	max-width: 800px;
@@ -56,4 +57,7 @@ ul.variables li {
 }
 a {
 	color: #7070FF;
+}
+select.algoSelect {
+
 }

@@ -24,17 +24,9 @@ function Chart () {
 	} else {
 		this.id = 0
 	}
-	console.log("new chart", this.id)
 	document.querySelector("#charts-go-here").insertAdjacentHTML("beforeend", `
 		<article id="chart${this.id}">
-			<h1 class="algo">
-				<select class="algoSelect">
-					<option value="bubble">bubble</option>
-					<option value="bogo">bogo</option>
-					<option value="boggle">boggle</option>
-					<option value="insertion">insertion</option>
-				</select>
-			</h1>
+			<select class="algoSelect"></select>
 			<figure>
 				<canvas width="768" height="512"></canvas>
 				<figcaption>
@@ -46,7 +38,7 @@ function Chart () {
 	this.ele = document.querySelector(`#chart${this.id}`)
 	this.ctx = this.ele.querySelector("canvas").getContext("2d")
 	this.ele.querySelector(".algoSelect").addEventListener("onChange", (evt) => {
-		charts[this.id].setAlgo()
+		charts[this.id].setAlgo(evt)
 	})
 
 	this.pause = function () {
@@ -265,9 +257,15 @@ function SortChart (length) {
 		} catch {}
 		return this
 	}
+
+	for (let i of Object.keys(algos).filter((key) => {return algos[key].chartType == "sort"})) {
+		this.ele.querySelector(".algoSelect").insertAdjacentHTML("beforeend", `
+			<option value="${i}">${i}</option>
+		`)
+	}
+
 	this.running = null
 	this.actualAlgo = null
-
 	this.actx = new (window.AudioContext || window.webkitAudioContext)()
 	this.oscillator = this.actx.createOscillator()
 	this.vol = this.actx.createGain()
@@ -299,14 +297,6 @@ function addChart (chart) {
 
 function removeChart (id) {}
 
-function resetCharts () {
-	let cgh = document.querySelector("#charts-go-here")
-	cgh.innerHTML = ""
-	for (let i of charts) {
-		add
-	}
-}
-
 var config = {
 	loop: false,
 	sound: false
@@ -321,14 +311,8 @@ for (let i of document.querySelectorAll(".control")) {
 // -----------------------------------------------------------------------------
 
 addChart(new SortChart(40))
-addChart(new SortChart(40))
-addChart(new SortChart(40))
-addChart(new SortChart(8))
 
-charts["0"].setAlgo("insertion")
-charts["1"].setAlgo("bubble")
-charts["2"].setAlgo("boggle").setSpeed(2)
-charts["3"].setAlgo("bogo").setSpeed(0)
+charts["0"].setAlgo("bubble")
 
 /*
 let options = ["bubble", "insertion"]
