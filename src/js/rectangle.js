@@ -6,14 +6,6 @@ import {algos} from "/js/algos.js"
 
 console.info("rectangle.js is alive")
 
-function GraphNode (id, to) {
-	this.id = id
-	this.to = to
-	this.from = []
-	this.x = null
-	this.y = null
-}
-
 function Chart () {
 	if (charts[0]) {
 		this.id = Number(Object.keys(charts)[Object.keys(charts).length - 1]) + 1
@@ -24,7 +16,7 @@ function Chart () {
 		<article id="chart${this.id}">
 			<select class="algoSelect"></select>
 			<figure>
-				<canvas width="768" height="512"></canvas>
+				<canvas width="576" height="384"></canvas>
 				<figcaption>
 					<ul class="variables"></ul>
 				</figcaption>
@@ -72,43 +64,6 @@ function Chart () {
 	this.algo = null
 	this.interval = 50
 	this.scanning = null
-}
-
-function GraphChart (nodeCount, maxTos) {
-
-	this.reset = function () {
-		this.value = []
-		// init nodes
-		for (let i = 0; i < 10; i++) {
-			let toCount = Math.floor(Math.random() * 3) + 1
-			let tos = []
-			for (let j = 0; j < toCount; j++){tos.push(Math.floor(Math.random() * 10))}
-			this.value.push(new GraphNode(i, tos))
-		}
-		// assign froms
-		for (let i of this.value) {
-			for (let j of this.value) {
-				if (j.to.indexOf(i.id) > 0) {
-					i.from.push(j.id)
-				}
-			}
-		}
-		console.log(this.value)
-		return this
-	}
-
-	this.assignCoords = function () {
-		for (let i of this.value) {
-
-		}
-	}
-
-	this.draw = function () {
-
-	}
-
-	this.running = null
-	this.reset()
 }
 
 function SortChart (length) {
@@ -239,13 +194,6 @@ function SortChart (length) {
 	this.draw()
 }
 
-function stepAll () {
-	for (let i of charts) {
-		i.step()
-	}
-	requestAnimationFrame(() => {})
-}
-
 function buttHandler (evt) {
 	for (let chart in Object.keys(charts)) {
 		charts[chart][evt.target.innerText]()
@@ -256,11 +204,13 @@ function addChart (chart) {
 	charts[chart.id] = chart
 }
 
-function removeChart (id) {}
+function removeChart (id) {
+	delete charts[chart.id]
+}
 
 var config = {
 	loop: false,
-	sound: false
+	sound: true
 }
 
 var charts = {}
@@ -268,13 +218,11 @@ var charts = {}
 for (let i of document.querySelectorAll(".control")) {
 	i.addEventListener("click", buttHandler)
 }
+document.querySelector("#new-chart").addEventListener("click", () => {
+	addChart(new SortChart(200).setSpeed(0))
+})
 
-// -----------------------------------------------------------------------------
-
-//addChart(new GraphChart(10, 3))
-addChart(new SortChart(40))
-
-charts["0"].setAlgo("bubble")
+addChart(new SortChart(200).setSpeed(0))
 
 /*
 let options = ["bubble", "insertion"]

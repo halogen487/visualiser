@@ -21,11 +21,11 @@ main {
 	flex-wrap: wrap;
 	justify-content: center;
 	align-content: center;
+	align-items: center;
 	height: 100%;
 }
 article {
 	max-width: 800px;
-	width: 100%;
 	color: white;
 }
 figure {
