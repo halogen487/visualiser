@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- page for single chart -->
+	<title>Visualiser</title>
+	<!-- import script and stylesheet -->
+	<link rel="stylesheet" type="text/css" href="/css/main.css"></link>
+	<script src="/js/main.js" type="module" defer="yes"></script>
+</head>
+<body id="single">
+	<header>
+		<button class="control">play</button>
+		<button class="control">pause</button>
+		<button class="control">reset</button>
+		<input type="number" class="speed" min="0" max="1000" placeholder="interval in ms"/>
+		<input type="number" class="length" min="10" max="1000" placeholder="array length"/>
+	</header>
+	<main>
+			<div id="charts-go-here"></div>
+	</main>
+</body>
+</html>

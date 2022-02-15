@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- page for multiple charts -->
+	<title>Visualiser</title>
+	<link rel="stylesheet" type="text/css" href="/css/main.css"></link>
+	<script src="/js/main.js" type="module" defer="yes"></script>
+</head>
+<body id="multiple">
+	<header>
+		<button class="control">play</button>
+		<button class="control">pause</button>
+		<button class="control">reset</button>
+		<input type="number" class="speed" min="0" max="1000" placeholder="interval in ms"/>
+		<input type="number" class="length" min="10" max="1000" placeholder="array length"/>
+	</header>
+	<main>
+			<div id="charts-go-here"></div>
+			<button id="new-chart">add chart</button>
+	</main>
+</body>
+</html>

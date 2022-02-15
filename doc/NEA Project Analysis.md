@@ -1,8 +1,7 @@
 # NEA Project Analysis
 
 <address>
-Jacob Halleron
-The Sandon School
+Jacob Halleron<br>The Sandon School
 </address>
 
 ## Background
@@ -68,7 +67,7 @@ I’ve emailed Nick (the client) a few questions about the project and the objec
 
 ## Objectives
 
-1. The product must effectively teach students how the algorithms.  This one’s fairly vague but the others should provide some detail.
+1. The product must effectively teach students how the algorithms work.  This one’s fairly vague but the others should provide some detail.
 
 2. It should be able to run on almost all computers. The client’s system is very above average, and isn’t a typical setup the average student would have, but slowed-down bubble sort shouldn’t be too resource-intensive.
 

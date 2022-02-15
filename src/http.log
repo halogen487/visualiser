@@ -1,1 +1,17 @@
 This is the log file for any HTTP requests.
+2022-01-10T11:18:03.569Z: GET request for / from ::ffff:127.0.0.1
+2022-01-10T11:18:03.683Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2022-01-10T11:18:14.792Z: GET request for /multiple from ::ffff:127.0.0.1
+2022-01-12T13:18:53.653Z: GET request for / from ::ffff:127.0.0.1
+2022-01-12T13:18:53.743Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2022-01-12T13:18:53.802Z: GET request for /favicon.ico from ::ffff:127.0.0.1
+2022-01-12T13:18:56.309Z: GET request for /multiple from ::ffff:127.0.0.1
+2022-01-12T13:18:56.378Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2022-01-12T13:18:56.382Z: GET request for /js/main.js from ::ffff:127.0.0.1
+2022-01-12T13:18:56.397Z: GET request for /js/algos.js from ::ffff:127.0.0.1
+2022-02-07T11:51:11.353Z: GET request for / from ::ffff:127.0.0.1
+2022-02-07T11:51:11.459Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2022-02-07T11:51:35.093Z: GET request for /single from ::ffff:127.0.0.1
+2022-02-07T11:51:35.203Z: GET request for /css/main.css from ::ffff:127.0.0.1
+2022-02-07T11:51:35.207Z: GET request for /js/main.js from ::ffff:127.0.0.1
+2022-02-07T11:51:35.242Z: GET request for /js/algos.js from ::ffff:127.0.0.1

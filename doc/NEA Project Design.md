@@ -1,26 +1,16 @@
-# NEA Project Design (Draft)
+# NEA Project Design
 
 <address>
 Jacob Halleron<br>The Sandon School
 </address>
 
-
 ## Summary
 
 As stated in the analysis document, the project will be a dynamic
-website with a client-server model. On the server, there’ll be a NodeJS
-app running the Express framework which will allow it to handle HTTP
-requests asynchronously. On instance of a request, the server will
-process it, and construct a webpage containing the relevant content. The
-client side is a traditional setup written in HTML, CSS and JavaScript.
-In essence, the browser will render a document with a diagram and the JS
-runtime will simultaneously continuously edit parts of the page if the
+website with a client-server model. On the server, there’ll be a NodeJS app running the Express framework which will allow it to handle HTTP requests asynchronously. On instance of a request, the server will process it, and construct a webpage containing the relevant content. The client side is a traditional setup written in HTML, CSS and JavaScript. In essence, the browser will render a document with a diagram and the JS runtime will simultaneously continuously edit parts of the page if the
 correct buttons are selected.
 
-In the “Proposed Solution” section of the analysis document, I’ve split
-the development of the project into six stages and loosely modelled this
-document around them. Some sections are much more complex and longer to
-plan than others, so they will have more documentation.
+In the “Proposed Solution” section of the analysis document, I’ve split the development of the project into six stages and loosely modelled this document around them. Some sections are much more complex and longer to plan than others, so they will have more documentation. Note that some parts of the project are partially designed but not in the project, I decided to trim down the project halfway through. Anything involving a tree or a graph was not properly implemented and exists in the `treejunk.js` or `graphjunk.js` files.
 
 External technologies I'll use:
 
@@ -34,20 +24,9 @@ External technologies I'll use:
 
 ## Server
 
-The Express framework is a lightweight extension to the vanilla NodeJS
-HTTP module, and it doesn’t add much other than make the server app
-source code slightly simpler. I was originally going to use the Apache
-web server with some basic templating coded in PHP, but my knowledge in
-PHP is limited at best. I know JS much better. It would be faster and
-more applicable to real life, though; most web servers have this setup
-along with MySQL or something.
+The Express framework is a lightweight extension to the vanilla NodeJS HTTP module, and it doesn’t add much other than make the server app source code slightly simpler. I was originally going to use the Apache web server with some basic templating coded in PHP, but my knowledge in PHP is limited at best. I know JS much better. It would be faster and more applicable to real life, though; most web servers have this setup along with MySQL or something.
 
-The server, along with the client, is written in JavaScript, and one can
-define “routes” (responses triggered by requests to certain paths) in
-the core \`app.js\` file. The program is completely event-driven, so one
-need only define some functions, applicable to certain defined types of
-request whose inputs and outputs are instances of request and response
-objects (from the built-in classes).
+The server, along with the client, is written in JavaScript, and one can define “routes” (responses triggered by requests to certain paths) in the core `app.js` file. The program is completely event-driven, so one need only define some functions, applicable to certain defined types of request whose inputs and outputs are instances of request and response objects (from the built-in classes).
 
 The server will also log any requests it receives in the console and in a text file. Most web servers do this, it’s considered good
 practice. I’ve put the whole server routing in a flow chart, shown in
@@ -104,9 +83,17 @@ There will be a few pages to design:
 
 Some of the HTML will inserted into the page by the program, so it can go as a string in the script rather than in the HTML files.
 
-Here are some illustrations of the UI:
+Here are some hand-drawn wireframe illustrations of the user interface:
 
-[add drawings]
+![](/home/jacob/Projects/visualiser/doc/assets/single-wireframe.jpg)
+
+This one's the "single animation" page, note that the pseudocode is visible and the chart is larger than on the multiple page.
+
+![](/home/jacob/Projects/visualiser/doc/assets/multiple-wireframe.jpg)
+
+Here's the page for multiple animations. The charts are smaller and there's the option to add another one.
+
+The homepage is just going to be a heading, some text and a list of hyperlinks, which is not worth drawing a wireframe. The 404 page will just say 404: page not found.
 
 ## Client Side JS
 
@@ -132,10 +119,10 @@ This “visualiser” will be represented as a new object, of the `Chart` class.
 |---|---|---|
 |`id`|Number|Unique ID of this chart|
 |`draw`|Function|The method to draw the object to the respective canvas. This will be executed every frame when running and will be different for different subclasses.|
-|`play`|Function|Starts algorithm loop using the built in `SetSpeed` function and stores the loop ID in `running`. Also starts the loop which triggers the draw function each frame.|
-|`pause`|Function|Stops algorithm loop|
+|`play`|Function|Starts algorithm loop using my `setSpeed` method and stores the loop ID in `running`. Also starts the loop which triggers the draw function each frame.|
+|`pause`|Function|Stops algorithm loop.|
 |`setAlgo`|Function|Changes the currently running function to the one with the given  name in the global `algos`.|
-|`setSpeed`|Function|Stops the running algorithm and restarts with the given interval.|
+|`setSpeed`|Function|Stops the running algorithm and restarts with the given speed.|
 |`reset`|Function|Stops the running algorithm and randomises `value` using an appropriate algorithm depending on the subclass.|
 |`running`|Number|The ID of the function currently running on this chart. The `setInterval` function regularly executes a given function at a certain rate, and returns a unique number so  that this process can be cancelled.|
 |`value`|Array or Tree|The most important property, the object being represented in the chart. For a bar chart this is a numeric array, for a graph or tree this is an array of nodes.|
@@ -243,9 +230,11 @@ As with the bar and graph charts, I’ll make another subclass for the tree char
 
 ### Algorithms
 
-The algorithms themselves will not be as simple as rewriting pseudocode from the internet. Integral to the design of the site is the ability to start and stop the algorithm at will, and change the speed it runs. JavaScript only has functionality to execute statements at the maximum speed possible, or trigger a function regularly at a set interval. The simplest solution I can think of is to convert all the code for an algorithm into a function that will repetitively be executed for every step of the process. Each algorithm will be represented as one function that is only applied at the start, and another which is executed for every step of the process.
+The algorithms themselves will not be as simple as rewriting pseudocode from the internet. Integral to the design of the site is the ability to start and stop the algorithm at will, and change the speed it runs. JavaScript only has functionality to execute statements at the maximum speed possible, or trigger a function regularly at a set interval. The simplest solution I can think of is to convert all the code for an algorithm into a function that will repetitively be executed for every step of the process.
 
-I've figured out a process for making these algorithms potable, as long as they don't use recursion. All the algorithms contain either a while loop or a for loop, and these aren’t too complex to convert to my single function format. Here are some pseudocode examples:
+Each algorithm will be represented as one function that is only applied at the start, and another which is executed for every step of the process. These functions will be called by the chart object using using the `apply()` method of the Function class. `apply()` calls the function using a specific given scope, i.e. you can call an external function as if it were a method. Using this, an algorithm can access the "host" object's private methods and properties.
+
+I've figured out a process for making these algorithms doable, as long as they don't use recursion. All the algorithms contain either while loops or for loops, and these aren’t too complex to convert to my single function format. Here are some pseudocode examples:
 
 While loop:
 
@@ -289,27 +278,138 @@ if i:
 		a()
 ```
 
-The algorithms I’ll implement are listed below:
+The algorithms I'll implement are as follows. `a` means the inputted array and `t` means the index of the target for search algorithms. In graph algorithms, `g` is the graph and `v` is the starting vertex.
 
 Bar chart:
-- Bubble
-- Bogo
-- Insertion
-- Selection
+- Bubble sort
+
+```
+while not sorted:
+	for i = 0 to len(a) - 1:
+		if a[i] > a[i + 1]:
+			swap(i, i + 1)
+```
+
+- Bogo sort
+
+```
+while not sorted:
+	shuffle(array)
+```
+
+- Insertion sort
+
+```
+i = 1
+while i < len(a):
+	j = i
+	while j > 0 and a[j - 1] > a[j]:
+		swap(j, j - 1)
+	i++
+```
+
+- Selection sort
+
+```
+for i = 0 to len(a) - 1:
+	jMin = i
+	for j = i + 1 to len(a):
+		if a[j] < a[jMin]:
+			jMin = j
+	if jMin != i:
+		swap(i, jMin)
+```
 
 Tree:
 
 - Pre order
+
+```
+visit(root)
+for each child ascending:
+	traverse(child)
+```
+
 - In order
 
+```
+traverse(left)
+visit(root)
+traverse(right)
+```
+
+This one only works with binary trees, the other two work with trees of any number of children.
+
 - Post order
+
+```
+for each child ascending:
+	traverse(child)
+visit(root)
+```
+
 - Binary search
+
+```
+l = 0
+r = len(a) - 1
+while l <= r:
+	m = floor((l + r) / 2)
+	if a[m] < t:
+		l = m + 1
+	else if a[m] > t:
+		r = m - 1
+	else:
+		return m
+```
 
 Graph:
 
 - Depth first search
+
+`s` is a stack.
+
+```
+s.push(v)
+while s not empty:
+	v = s.pop()
+	if not v.visited:
+		v.visited = true
+		for all edges from v to w in g.adjacentEdges(v):
+			s.push(w)
+```
+
 - Breadth first search
 
-- Dijkstra
-- A*
+`q` is a queue.
 
+```
+v.visited = true
+q.enqueue(v)
+while q not empty:
+	v = q.dequeue()
+	if v is goal:
+		return v
+	for all edges from v to w in g.adjacentEdges(v):
+		if not v.visited:
+			v.visited = true
+			q.enqueue(w)
+```
+
+- Dijkstra
+
+```
+for i of g:
+	i.dist = infinity
+	i.prev = null
+	q.enqueue(v)
+v.dist = 0
+while q not empty:
+	u = vertex in q with min dist
+	q.dequeue
+	for i of u still in q:
+		alt = u.dist + len(u, i)
+		if alt > v.dist:
+			v.dist = alt
+			v.prev = u
+```
