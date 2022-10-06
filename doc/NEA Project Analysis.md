@@ -1,12 +1,13 @@
 # NEA Project Analysis
 
 <address>
-Jacob Halleron<br>The Sandon School
+Jacob Halleron<br>
+The Sandon School
 </address>
 
 ## Background
 
-I’ll make the assumption that you, reader, have basic knowledge on what algorithms are and how they process sets of data.
+I’ll make the assumption that the reader has basic knowledge on what algorithms are and how they process sets of data.
 Computer Science students always have and always will need to intricately understand how a variety of algorithms and and data structures process data, their pros and cons, how they relate to others, etc. These concepts are usually completely abstract and difficult to understand, especially with all the other topics crammed into students’ memory. Teaching of this at GCSE and A-level is currently often limited to text-based explanations and code blocks, which can be hard to understand with more complex algorithms. For example, I failed to understand Dijkstra’s Algorithm, which isn’t too difficult a concept, until I came across a step-by-step video explaining the process with a graph diagram and code. The same could likely be said with the selection of other algorithms students may need to know.
 
 Nick Miller has asked me to create an online solution that will help him and other CS students to learn these algorithms. Rather than tell the user the answers in an intimidating block of text, the user will teach themselves by following an animated diagram.

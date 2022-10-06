@@ -1,7 +1,8 @@
 # NEA Project Technical Solution
 
 <address>
-Jacob Halleron<br>The Sandon School
+Jacob Halleron<br>
+The Sandon School
 </address>
 
 ## Contents

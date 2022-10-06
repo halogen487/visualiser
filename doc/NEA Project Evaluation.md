@@ -1,7 +1,8 @@
 # NEA Project Evaluation
 
 <address>
-    Jacob Halleron<br>The Sandon School
+    Jacob Halleron<br>
+	The Sandon School
 </address>
 
 ## Reflection
@@ -52,4 +53,6 @@ That's some very positive feedback.
 
 ## Improvement
 
-If the project were revisited, it's clear it can be expanded upon to demonstrate more algorithms and types of algorithm. I didn't have time to visualise trees or graphs, so that could be done. The core programming, i.e. the UI and main classes are satisfactory to my standards.
+If the project were revisited, it's clear it can be expanded upon to demonstrate more algorithms and types of algorithm. I didn't have time to visualise trees or graphs, so that could be done. The core programming, i.e. the UI and main classes are satisfactory to my standards, so there's no need to touch them. I could make the front end a lot prettier, but it's a lot of effort and has no concrete benefits.
+
+Early on, I was contemplating between programming the server in JavaScript using the Express framework, or in PHP using the Apache web server since JS isn't made for the server. If I were to remake it today, I would definitely use Apache. The server side is very simple and my PHP skills have progressed enough that this would be the easier option now.

@@ -1,14 +1,13 @@
 # NEA Project Design
 
 <address>
-Jacob Halleron<br>The Sandon School
+Jacob Halleron<br>
+The Sandon School
 </address>
 
 ## Summary
 
-As stated in the analysis document, the project will be a dynamic
-website with a client-server model. On the server, there’ll be a NodeJS app running the Express framework which will allow it to handle HTTP requests asynchronously. On instance of a request, the server will process it, and construct a webpage containing the relevant content. The client side is a traditional setup written in HTML, CSS and JavaScript. In essence, the browser will render a document with a diagram and the JS runtime will simultaneously continuously edit parts of the page if the
-correct buttons are selected.
+As stated in the analysis document, the project will be a dynamic website with a client-server model. On the server, there’ll be a NodeJS app running the Express framework which will allow it to handle HTTP requests asynchronously. On instance of a request, the server will process it, and construct a webpage containing the relevant content. The client side is a traditional setup written in HTML, CSS and JavaScript. In essence, the browser will render a document with a diagram and the JS runtime will simultaneously continuously edit parts of the page if the correct buttons are selected.
 
 In the “Proposed Solution” section of the analysis document, I’ve split the development of the project into six stages and loosely modelled this document around them. Some sections are much more complex and longer to plan than others, so they will have more documentation. Note that some parts of the project are partially designed but not in the project, I decided to trim down the project halfway through. Anything involving a tree or a graph was not properly implemented and exists in the `treejunk.js` or `graphjunk.js` files.
 
@@ -28,9 +27,7 @@ The Express framework is a lightweight extension to the vanilla NodeJS HTTP modu
 
 The server, along with the client, is written in JavaScript, and one can define “routes” (responses triggered by requests to certain paths) in the core `app.js` file. The program is completely event-driven, so one need only define some functions, applicable to certain defined types of request whose inputs and outputs are instances of request and response objects (from the built-in classes).
 
-The server will also log any requests it receives in the console and in a text file. Most web servers do this, it’s considered good
-practice. I’ve put the whole server routing in a flow chart, shown in
-the figure.
+The server will also log any requests it receives in the console and in a text file. Most web servers do this, it’s considered good practice. I’ve put the whole server routing in a flow chart, shown in the figure.
 
 ![Server flow chart](./assets/server-flow-chart.png)
 
@@ -101,36 +98,64 @@ Most of the code in this project resides in the browser’s JavaScript runtime.
 
 Fundamental to this project is a box which shows the data structure being focused on. It’ll be a completely resizeable canvas element and look different depending on the type of object. The diagram inside it will be either a bar chart (for sort and search algorithms) or a graph. Every time the running algorithm changes some variable, the box will be updated. Below are all the global variables I’m using in the script.
 
-|Variable|Type|Explanation|
-|---|---|---|
-|`actx`|Audio context|The “audio context”, or sound interface, I’ll use for any beeps and boops the program makes.|
-|`GraphNode`|Class|Class for a single node of a graph. It has four properties: `id` which is a number unique to all the other nodes in a graph, `to` which is an array of the IDs of the other nodes it connects to, and `x` and `y` which are coordinates in the chart.|
-|`TreeNode`|Subclass of `GraphNode`, specifically for a tree structure. Also has property `from` which is the ID of its parent.|
-|`Chart`|Class|Class for any chart|
-|`SortChart`|Class|Class for a numeric array chart|
-|`GraphChart`|Class|Class for graph structure chart|
-|`TreeChart`|Class|Class for a tree structure chart|
-|`algos`|Map|Stores all algorithms any chart might use. Each one is represented as an object with two methods, one which executes at the start (`init`), and  one which executes every step after (`step`). The reasoning for this unorthodox algorithm representation will be explained later.|
-|`charts`|Map|Contains all the charts currently on the screen|
+| Variable     | Type          | Explanation                                                                                                                                                                                                                                                                       |
+| ------------ | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `actx`       | Audio context | The “audio context”, or sound interface, I’ll use for any beeps and boops the program makes.                                                                                                                                                                                      |
+| `GraphNode`  | Class         | Class for a single node of a graph. It has four properties: `id` which is a number unique to all the other nodes in a graph, `to` which is an array of the IDs of the other nodes it connects to, and `x` and `y` which are coordinates in the chart.                             |
+| `TreeNode`   | Class         | Subclass of `GraphNode`, specifically for a tree structure. Also has property `from` which is the ID of its parent.                                                                                                                                                               |
+| `Chart`      | Class         | Class for any chart                                                                                                                                                                                                                                                               |
+| `SortChart`  | Class         | Class for a numeric array chart                                                                                                                                                                                                                                                   |
+| `GraphChart` | Class         | Class for graph structure chart                                                                                                                                                                                                                                                   |
+| `TreeChart`  | Class         | Class for a tree structure chart                                                                                                                                                                                                                                                  |
+| `algos`      | Map           | Stores all algorithms any chart might use. Each one is represented as an object with two methods, one which executes at the start (`init`), and one which executes every step after (`step`). The reasoning for this unorthodox algorithm representation will be explained later. |
+| `charts`     | Map           | Contains all the charts currently on the screen                                                                                                                                                                                                                                   |
 
 This “visualiser” will be represented as a new object, of the `Chart` class. Because there may be multiple charts running, I could have multiple of these objects at a given time. Depending on the object it represents, there will be different child class. The properties of this parent class are shown below.
 
-|Property|Type|Explanation|
-|---|---|---|
-|`id`|Number|Unique ID of this chart|
-|`draw`|Function|The method to draw the object to the respective canvas. This will be executed every frame when running and will be different for different subclasses.|
-|`play`|Function|Starts algorithm loop using my `setSpeed` method and stores the loop ID in `running`. Also starts the loop which triggers the draw function each frame.|
-|`pause`|Function|Stops algorithm loop.|
-|`setAlgo`|Function|Changes the currently running function to the one with the given  name in the global `algos`.|
-|`setSpeed`|Function|Stops the running algorithm and restarts with the given speed.|
-|`reset`|Function|Stops the running algorithm and randomises `value` using an appropriate algorithm depending on the subclass.|
-|`running`|Number|The ID of the function currently running on this chart. The `setInterval` function regularly executes a given function at a certain rate, and returns a unique number so  that this process can be cancelled.|
-|`value`|Array or Tree|The most important property, the object being represented in the chart. For a bar chart this is a numeric array, for a graph or tree this is an array of nodes.|
-|`shownValue`|Array or Tree|The value currently rendered in the actual chart; this may differ from `value` in the small time between the property access and drawing the frame. If `value` is too large this will not be used, for performance.|
-|`algo`|String|Name of the current algorithm for this chart. This is also the key to find the relevant function in the global `algos` map.|
-|`interval`|Number|Interval in milliseconds to wait between cycles of the algorithm.|
-|`scanning`|Array|The index of whatever node or bar in `value` is being "scanned", i.e. being looked at by the currently running algorithm. This will be drawn as a different colour to the other items.|
-|`done`|Boolean|Represents if the algorithm is done running, like if the bar chart has been sorted.|
+| Property     | Type          | Explanation                                                                                                                                                                                                         |
+| ------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`         | Number        | Unique ID of this chart                                                                                                                                                                                             |
+| `draw`       | Function      | The method to draw the object to the respective canvas. This will be executed every frame when running and will be different for different subclasses.                                                              |
+| `play`       | Function      | Starts algorithm loop using my `setSpeed` method and stores the loop ID in `running`. Also starts the loop which triggers the draw function each frame.                                                             |
+| `pause`      | Function      | Stops algorithm loop.                                                                                                                                                                                               |
+| `setAlgo`    | Function      | Changes the currently running function to the one with the given name in the global `algos`.                                                                                                                        |
+| `setSpeed`   | Function      | Stops the running algorithm and restarts with the given speed.                                                                                                                                                      |
+| `reset`      | Function      | Stops the running algorithm and randomises `value` using an appropriate algorithm depending on the subclass.                                                                                                        |
+| `running`    | Number        | The ID of the function currently running on this chart. The `setInterval` function regularly executes a given function at a certain rate, and returns a unique number so that this process can be cancelled.        |
+| `value`      | Array or Tree | The most important property, the object being represented in the chart. For a bar chart this is a numeric array, for a graph or tree this is an array of nodes.                                                     |
+| `shownValue` | Array or Tree | The value currently rendered in the actual chart; this may differ from `value` in the small time between the property access and drawing the frame. If `value` is too large this will not be used, for performance. |
+| `algo`       | String        | Name of the current algorithm for this chart. This is also the key to find the relevant function in the global `algos` map.                                                                                         |
+| `interval`   | Number        | Interval in milliseconds to wait between cycles of the algorithm.                                                                                                                                                   |
+| `scanning`   | Array         | The index of whatever node or bar in `value` is being "scanned", i.e. being looked at by the currently running algorithm. This will be drawn as a different colour to the other items.                              |
+| `done`       | Boolean       | Represents if the algorithm is done running, like if the bar chart has been sorted.                                                                                                                                 |
+
+Here's a flow chart for the `play` method, it's one of the larger methods:
+
+![Chart `play` method flow chart](/home/jacob/Pictures/Screenshot%20from%202022-02-21%2000-04-31.png)
+
+And here's some pseudocode for the `draw` method, flow charts aren't great to represent for loops:
+
+```
+if sound enabled:
+	beep()
+for each variable:
+	write key and value to HTML list
+clear canvas
+bar width := chart width / array length
+min bar height := chart height / array length
+for each array element:
+	colour := grey
+	if element has moved since last draw:
+		colour := white
+	if chart is being checked:
+		if element is in correct place:
+			colour := green
+	if element is being "scanned" by algorithm:
+		colour := red
+	bar height := min bar height * element's value
+	draw bar
+return
+```
 
 ### Bar Chart
 
@@ -138,13 +163,13 @@ If an array of numbers is inputted, the function will draw a bar chart, with eac
 
 This class of visualiser will have some of its own variables:
 
-|Property|Type|Explanation|
-|---|---|---|
-|`swap`|Function|Swaps numbers at the two array index arguments|
-|`setLength`|Function|Sets the length of the array.|
-|`beep`|Function|Makes a beep sound with pitch corresponding to the inputted bar height.|
-|`oscillator`|Oscillator|"Oscillator" object from the built-in sound library for beeps, boops and such|
-|`actx`|Audio context|Audio context to control the sounds the chart makes. This sound library requires a lot of variables.|
+| Property     | Type          | Explanation                                                                                          |
+| ------------ | ------------- | ---------------------------------------------------------------------------------------------------- |
+| `swap`       | Function      | Swaps numbers at the two array index arguments                                                       |
+| `setLength`  | Function      | Sets the length of the array.                                                                        |
+| `beep`       | Function      | Makes a beep sound with pitch corresponding to the inputted bar height.                              |
+| `oscillator` | Oscillator    | "Oscillator" object from the built-in sound library for beeps, boops and such                        |
+| `actx`       | Audio context | Audio context to control the sounds the chart makes. This sound library requires a lot of variables. |
 
 The draw function will also be specific to this class. Rendering will be done by drawing rectangles on the canvas of uniform width, and height equal to that number’s index divided by the array length, multiplied by the canvas height. If the chart’s `interval` property is more than a certain amount of milliseconds, this function will utilise the `shownValue` property to create a short animation for any bars that have moved.
 
@@ -152,12 +177,12 @@ The draw function will also be specific to this class. Rendering will be done by
 
 Finally, if the input is a graph structure, a graph (in the technical mathematical sense) will be drawn on the canvas. A graph is effectively an array of nodes, with each node connected to others. I’ll make another class for a graph node:
 
-|Property|Type|Explanation|
-|---|---|---|
-|`id`|String|The unique identifier of this node, also probably just one letter long.|
-|`x`|Number|X coordinate of this node on the canvas.|
-|`y`|Number|Y coordinate of this node on the canvas.|
-|`to`|Array|Array containing the IDs of any other nodes this leads to.|
+| Property | Type   | Explanation                                                             |
+| -------- | ------ | ----------------------------------------------------------------------- |
+| `id`     | String | The unique identifier of this node, also probably just one letter long. |
+| `x`      | Number | X coordinate of this node on the canvas.                                |
+| `y`      | Number | Y coordinate of this node on the canvas.                                |
+| `to`     | Array  | Array containing the IDs of any other nodes this leads to.              |
 
 Graph drawing is a surprisingly wide branch of computer science, and the most popular method of formulating a diagram is through a method known as force directed graph drawing. Essentially, the system is simulated as if each vertex has forces applied to it that attract or repel connected vertices. After not too long, there is equilibrium. This technique is used by advanced and professional statistics software, so it might be overkill for the small examples in this project, but it looks fun to program so I’ll implement it.
 
@@ -165,16 +190,16 @@ Graph drawing is a surprisingly wide branch of computer science, and the most po
 
 If a tree object is inputted (a binary or nonbinary tree), a diagram with nodes and edges will be drawn in the box. A node will be a simple circle with a letter or number inside, and an edge will be a line. I’ll make a subclass of graph for it:
 
-| Property   | Type | Explanation|
-| ---------- | -------- | ------------------------------------------------------------ |
-| `id` | String   | The unique identifier of this node, probably just one letter long. |
-| `to` | Array | Array containing the IDs of any children nodes.              |
-| `x` | Number | X coordinate of this node on the canvas.|
-| `y` | Number | Y coordinate of this node on the canvas.                     |
-| `mod`      | Number   | Used in the drawing algorithm to calculate how how much to modify its X coordinate. |
+| Property   | Type     | Explanation                                                                                                                                                                                                                                  |
+| --- | --- | --- |
+| `id`       | String   | The unique identifier of this node, probably just one letter long.                                                                                                                                                                           |
+| `to`       | Array    | Array containing the IDs of any children nodes.                                                                                                                                                                                              |
+| `x`        | Number   | X coordinate of this node on the canvas.                                                                                                                                                                                                     |
+| `y`        | Number   | Y coordinate of this node on the canvas.                                                                                                                                                                                                     |
+| `mod`      | Number   | Used in the drawing algorithm to calculate how how much to modify its X coordinate.                                                                                                                                                          |
 | `traverse` | Function | Accepts one argument, a string which is either “post” or “pre”. Returns an array of the values of the appropriate traversal of this node and its children. In order traversal will only be possible for binary trees, which this may not be. |
 
-The Y position of a given node will depend on its depth in the tree, i.e. the root node goes at the top and the deepest leaf at the bottom, with nodes with equal depth having equal Y positions The X position, however, will be more tricky to calculate; I’ll want parent nodes centered above their children (so there aren’t more nodes under one side than the other) and all the nodes relatively evenly distributed so that we don’t waste space on the screen or cram too many into a small space. This isn’t *technically* necessary, but will make the diagram more aesthetically pleasing and easier for the user to scan, thereby improving the user experience. [This](https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/) article and its attached source code have been especially useful for the tree-drawing process, and I’ll be using an algorithm similar to the one provided in it. It involves initially spacing the children apart, then centering the parents over them, then making sure there are no collisions in their positions. Here’s its pseudocode, it’s surprisingly lengthy:
+The Y position of a given node will depend on its depth in the tree, i.e. the root node goes at the top and the deepest leaf at the bottom, with nodes with equal depth having equal Y positions The X position, however, will be more tricky to calculate; I’ll want parent nodes centered above their children (so there aren’t more nodes under one side than the other) and all the nodes relatively evenly distributed so that we don’t waste space on the screen or cram too many into a small space. This isn’t _technically_ necessary, but will make the diagram more aesthetically pleasing and easier for the user to scan, thereby improving the user experience. [This](https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/) article and its attached source code have been especially useful for the tree-drawing process, and I’ll be using an algorithm similar to the one provided in it. It involves initially spacing the children apart, then centering the parents over them, then making sure there are no collisions in their positions. Here’s its pseudocode, it’s surprisingly lengthy:
 
 ```pseudocode
 function calculateInitialX(tree):
@@ -223,10 +248,14 @@ function calculateFinalPositions(tree):
 
 As with the bar and graph charts, I’ll make another subclass for the tree chart:
 
-| Property      | Type   | Explanation                                                  |
-| ------------- | ------ | ------------------------------------------------------------ |
-| `height`      | Number | How many nodes tall (deep) the tree will be after generation. |
+| Property      | Type   | Explanation                                                    |
+| --- | --- | --- |
+| `height`      | Number | How many nodes tall (deep) the tree will be after generation.  |
 | `maxChildren` | Number | The maximum number of children a node can have for generation. |
+
+Here's a UML diagram for all the classes I've designed:
+
+![UML Class Diagram](/home/jacob/Pictures/Screenshot%20from%202022-02-21%2000-44-55.png)
 
 ### Algorithms
 
@@ -281,6 +310,7 @@ if i:
 The algorithms I'll implement are as follows. `a` means the inputted array and `t` means the index of the target for search algorithms. In graph algorithms, `g` is the graph and `v` is the starting vertex.
 
 Bar chart:
+
 - Bubble sort
 
 ```

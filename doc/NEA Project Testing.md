@@ -32,7 +32,7 @@ Perfect.
 
 When I load `http://localhost/anything-else`, it should send back a page saying "404: page not found".
 
-![image-20220111211010705](/home/jacob/.config/Typora/typora-user-images/image-20220111211010705.png)
+![](/home/jacob/Pictures/image-20220111211010705.png)
 
 This looks about right.
 

@@ -35,6 +35,6 @@ app.use("/", function (req, res) { // request for anything else returns 404 page
 	res.sendFile(path.join(__dirname, "/html/404.html"))
 })
 
-app.listen(80, () => { // listen on port 80
+app.listen(8000, () => { // listen on port 8000
 	console.info("server alive")
 })
